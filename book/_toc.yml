@@ -1,3 +1,6 @@
 file: TAPIntroduction
 sections:
 - file: Docker
+- file: Docker - BYOC
+- file: Data Ingestion
+- file: Nifi

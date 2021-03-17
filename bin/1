@@ -1,0 +1,4 @@
+./elasticSearch.sh: line 3: docker: command not found
+./elasticSearch.sh: line 6: docker: command not found
+./elasticSearch.sh: line 9: docker: command not found
+./elasticSearch.sh: line 11: docker: command not found
