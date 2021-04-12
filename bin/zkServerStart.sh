@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-REM Stop
+# Stop
 docker stop kafkaZookeeperWebUI
 
-REM Remove previuos container 
+# Remove previuos container 
 docker container rm kafkaZookeeperWebUI
 
 docker build ../zookeeper/ --tag tap:kafka
