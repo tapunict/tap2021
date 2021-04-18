@@ -4,3 +4,17 @@ sections:
 - file: Docker - BYOC
 - file: Data Ingestion
 - file: Nifi
+- file: Apache Flume
+- file: Logstash
+# Notebook
+- file: Data Streaming
+- file: Kafka
+- file: Kafka-Streams-Connectors
+- file: Spark
+- file: 
+- file: Spark Architecture and Applications
+- file: Spark Streaming
+- file: Spark Straming - Kafka
+- file: Spark Kafka Sentiment Analysis
+# - file: Elastic Search
+# - file: Kibana
