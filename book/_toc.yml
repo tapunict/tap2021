@@ -11,7 +11,8 @@ sections:
 - file: Kafka
 - file: Kafka-Streams-Connectors
 - file: Spark
-- file: 
+- file: Spark RDD and Beyond
+- file: Spark Dataset
 - file: Spark Architecture and Applications
 - file: Spark Streaming
 - file: Spark Straming - Kafka
