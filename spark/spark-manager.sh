@@ -25,6 +25,9 @@ echo "Running example ARGS $@"
 cd /opt/tap/
 python ${TAP_CODE}
 ;;
+"wordcount")
+python /opt/tap/wordcount.py ${TAP_CODE}
+;;
 "bash")
 while true
 do
