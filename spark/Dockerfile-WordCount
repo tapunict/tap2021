@@ -14,11 +14,9 @@ RUN pip3 install pyspark
 # Create Sym Link 
 RUN ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop2.7 ${SPARK_DIR} 
 
-ADD dataset /opt/tap/spark/dataset
+
 # Add Python Code
-ADD code/*  /opt/tap/
-# Add Java Code
-ADD apps /opt/tap/apps
+ADD code/wordcount.py  /opt/tap/
 # Add Spark Manager
 ADD spark-manager.sh $SPARK_DIR/bin/spark-manager
 
