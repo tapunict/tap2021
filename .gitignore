@@ -1,3 +1,4 @@
 
 book/_build/*
 book/.ipynb_checkpoints/*
+.vscode
