@@ -1,4 +1,4 @@
-
+.ipynb_checkpoints/*
 book/_build/*
 book/.ipynb_checkpoints/*
 spark/setup/*

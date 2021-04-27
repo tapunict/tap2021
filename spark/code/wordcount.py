@@ -1,20 +1,28 @@
-import sys
 import pyspark
 import string
 import time
+import argparse
 
-n = input("Cores to use: ")
-master = 'local[' + str(n) + ']'
+parser = argparse.ArgumentParser("Extended Word Counter")
+parser.add_argument("-f", dest="file",  required=True, help="Filepath to analyze")
+parser.add_argument("-c", type=int, dest="cores", required=True, help="Number of cores used by worker")
+parser.add_argument("-s", dest="separator", required=True, help="Separator used by tokenizer")
+
+args = parser.parse_args()
+master = 'local[' + str(args.cores) + ']'
 conf = pyspark.SparkConf().setAppName('WordCounter').setMaster(master)
-print("Spark Session Active! Appname WordCount with " + str(n) + (" cores used"))
+print("Spark Session Active! Appname WordCount with " + str(args.cores) + (" cores used"))
 sc = pyspark.SparkContext(conf=conf) 
-absFilename = str(sys.argv[1]).split("/")
+absFilename = args.file.split("/")
 relFilename = absFilename[len(absFilename) - 1]
 logfile = "/opt/tap/spark/dataset/" + relFilename
 print("Analyzing file " + relFilename)
 logData = sc.textFile(logfile).cache()
 print("RDD generated from textFile")
-separator = input("Insert word separator: ")
+separator = str(args.separator)
+if separator == "w|":
+    separator = " "
+print("Separator: " + separator)
 tok_start = time.perf_counter()
 words = logData.flatMap(lambda x: x.split(separator)).filter(lambda x: x != "")
 tok_end = time.perf_counter()

@@ -5,8 +5,25 @@
 
 echo "Running action ${SPARK_ACTION}"
 case ${SPARK_ACTION} in
-"wordcount")
-python3 /opt/tap/wordcount.py ${TAP_CODE}
+"example")
+echo "Running example ARGS $@"
+./bin/run-example $@
+;;
+"spark-shell")
+./bin/spark-shell --master local[2]
+;;
+"pyspark")
+./bin/pyspark --master local[2]
+;;
+"spark-submit-python")
+ ./bin/spark-submit --packages $2 /opt/tap/$1
+;;
+"spark-submit-apps")
+ ./bin/spark-submit --packages $3 --class $1 /opt/tap/apps/$2
+;;
+"pytap")
+cd /opt/tap/
+python3 ${TAP_CODE}
 ;;
 "bash")
 while true
