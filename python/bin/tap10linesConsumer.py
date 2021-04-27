@@ -1,13 +1,16 @@
 # https://towardsdatascience.com/kafka-python-explained-in-10-lines-of-code-800e3e07dad
+import os
 from kafka import KafkaConsumer
 from json import loads
 
+topic = os.getenv("KAFKA_TOPIC", "tap")
+group_id = os.getenv("GROUP_ID", "my-group")
 consumer = KafkaConsumer(
-    'tap',
+     topic,
      bootstrap_servers=['kafkaServer:9092'],
      auto_offset_reset='latest',
      enable_auto_commit=True,
-     group_id='my-group',
+     group_id=group_id,
      value_deserializer=lambda x: loads(x.decode('utf-8')))
 
 for message in consumer:
