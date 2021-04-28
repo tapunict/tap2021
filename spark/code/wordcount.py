@@ -22,7 +22,10 @@ print("RDD generated from textFile")
 separator = str(args.separator)
 if separator == "w|":
     separator = " "
-print("Separator: " + separator)
+if separator == " ":
+    print("Separator = Whitespace")
+else:
+    print("Separator: " + separator)
 tok_start = time.perf_counter()
 words = logData.flatMap(lambda x: x.split(separator)).filter(lambda x: x != "")
 tok_end = time.perf_counter()
