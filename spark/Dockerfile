@@ -7,9 +7,9 @@ ENV PATH $SPARK_DIR/bin:$PATH
 
 ADD setup/spark-${SPARK_VERSION}-bin-hadoop2.7.tgz /opt
 
-RUN apt-get update && apt-get -y install bash python3 python-pip netcat
+RUN apt-get update && apt-get -y install bash python3 python3-pip netcat
 
-RUN pip install pyspark kafka-utils numpy elasticsearch
+RUN pip3 install pyspark kafka-utils numpy elasticsearch
 # Create Sym Link 
 RUN ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop2.7 ${SPARK_DIR} 
 
