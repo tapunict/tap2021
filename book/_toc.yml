@@ -14,8 +14,10 @@ sections:
 - file: Spark RDD and Beyond
 - file: Spark Dataset
 - file: Spark Architecture and Applications
+- file: Spark Mlib
 - file: Spark Streaming
-- file: Spark Straming - Kafka
-- file: Spark Kafka Sentiment Analysis
+- file: Structured Streams
+- file: Spark - Kafka Integration
 # - file: Elastic Search
 # - file: Kibana
+#- file: Spark Kafka Sentiment Analysis
