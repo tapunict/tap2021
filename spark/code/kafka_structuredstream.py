@@ -26,13 +26,13 @@ df = spark \
   .option("subscribe", topic) \
   .load()
 
-df.selectExpr("CAST(timestamp AS STRING)","CAST(value AS STRING)") \
-  .writeStream \
-  .foreachBatch(elaborate) \
-  .start() \
-  .awaitTermination()
-
-#df.writeStream \
-#  .format("console") \
+#df.selectExpr("CAST(timestamp AS STRING)","CAST(value AS STRING)") \
+#  .writeStream \
+#  .foreachBatch(elaborate) \
 #  .start() \
 #  .awaitTermination()
+
+df.writeStream \
+  .format("console") \
+  .start() \
+  .awaitTermination()
