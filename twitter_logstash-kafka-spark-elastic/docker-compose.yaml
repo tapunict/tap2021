@@ -1,0 +1,101 @@
+version: '3.8'
+
+services: 
+    zookeeper:
+        image: confluentinc/cp-zookeeper:6.1.1
+        container_name: zookeeper
+        ports:
+            - "2181:2181"
+        environment:
+            ZOOKEEPER_CLIENT_PORT: 2181
+            ZOOKEEPER_SERVER_ID: "1"
+        networks: 
+                - tap
+
+    kafkaserver:
+        image: confluentinc/cp-kafka:6.1.1
+        container_name: kafkaserver
+        hostname: kafkaServer
+        depends_on:
+          - zookeeper
+        ports:
+          - "9092:9092"
+        environment:
+          KAFKA_BROKER_ID: 0
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafkaserver:9092
+          KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+          KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        networks: 
+            - tap
+
+    webui:
+        image: provectuslabs/kafka-ui:latest
+        container_name: kafkaWebUI
+        environment:
+            KAFKA_CLUSTERS_0_NAME: my_cluster
+            KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafkaServer:9092
+        ports: 
+            - 8080:8080
+        depends_on: 
+            - kafkaserver
+        networks: 
+            - tap
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+        container_name: elasticsearch
+        ports:
+            - "9200:9200"
+        environment:
+            - node.name=elasticsearch
+            - cluster.name=elasticsearch-docker-cluster
+            - discovery.seed_hosts=elasticsearch
+            - cluster.initial_master_nodes=elasticsearch
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        networks: 
+            - tap
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:7.12.1
+        container_name: kibana
+        ports:
+            - "5601:5601"
+        depends_on: 
+            - elasticsearch
+        networks: 
+            - tap
+    
+    spark:
+        build: 
+            context: ../spark
+            dockerfile: ./Dockerfile
+        image: tap:spark
+        container_name: spark
+        command: ["twitter_stream_elastic.py", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1,org.elasticsearch:elasticsearch-spark-30_2.12:7.12.1"]
+        environment: 
+            SPARK_ACTION: "spark-submit-python"
+        ports: 
+            - "4040:4040"
+        depends_on: 
+            - kafkaserver
+            - elasticsearch
+        networks: 
+            - tap
+    
+    logstash:
+        build: 
+            context: ../logstash_to_kafka
+            dockerfile: ./Dockerfile
+        image: tap:logstash_to_kafka
+        container_name: logstash_to_kafka
+        depends_on: 
+            - kafkaserver
+        networks: 
+            - tap
+networks:
+    tap:
+        name: tap
+        driver: bridge
