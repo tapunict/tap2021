@@ -9,7 +9,7 @@ RUN apk update \
 ENV HADOOP_VERSION=2.10.1
 ENV HADOOP_HOME=/opt/flume/lib/hadoop-$HADOOP_VERSION
 
-RUN wget -q http://www.eu.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz -O /opt/flume/lib/hadoop-$HADOOP_VERSION.tar.gz && \
+RUN wget -q http://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_VERSION/hadoop-$HADOOP_VERSION.tar.gz -O /opt/flume/lib/hadoop-$HADOOP_VERSION.tar.gz && \
     tar xzf /opt/flume/lib/hadoop-$HADOOP_VERSION.tar.gz -C /opt/flume/lib && \
     rm /opt/flume/lib/hadoop-$HADOOP_VERSION.tar.gz
 
