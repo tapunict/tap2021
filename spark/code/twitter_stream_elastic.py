@@ -68,7 +68,9 @@ schema = tp.StructType([
 ])
 
 sparkConf = SparkConf().set("es.nodes", "elasticsearch") \
-                        .set("es.port", "9200")
+                        .set("es.port", "9200") \
+                        .set("es.mapping.id", "id_str") \
+                        .set("es.write.operation", "upsert")
 
 sc = SparkContext(appName="TapSentiment", conf=sparkConf)
 spark = SparkSession(sc)
